@@ -1,27 +1,26 @@
-// APIHandler
-package main
+package api
 
 import (
 	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
-	"picture-story/google"
+	"picture-story/picstore"
 )
 
-type APIHandler struct {
+type Handler struct {
 }
 
-func (h APIHandler) ServeHTTP(rw http.ResponseWriter, request *http.Request) {
+func (h Handler) ServeHTTP(rw http.ResponseWriter, request *http.Request) {
 
 	parameter := request.URL.Query()
 
-	var result interface{}
+	var albums *[]picstore.Album
 	var err error
 
 	switch parameter["func"][0] {
 	case "albums":
-		result, err = fetchAlbums(parameter["userid"][0])
+		albums, err = fetchAlbums(parameter["userid"][0])
 	default:
 		err = errors.New("no function selected")
 	}
@@ -32,7 +31,7 @@ func (h APIHandler) ServeHTTP(rw http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	jsonResult, err := json.Marshal(result)
+	jsonResult, err := json.Marshal(*albums)
 
 	if err != nil {
 		rw.WriteHeader(http.StatusNotFound)
@@ -43,9 +42,6 @@ func (h APIHandler) ServeHTTP(rw http.ResponseWriter, request *http.Request) {
 	fmt.Fprint(rw, jsonResult)
 }
 
-func fetchAlbums(userid string) (interface{}, error) {
-
-	albums, err := google.Albums(userid)
-
-	return albums, err
+func fetchAlbums(userid string) (*[]picstore.Album, error) {
+	return picstore.GAlbums(userid)
 }

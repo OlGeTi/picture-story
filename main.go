@@ -5,6 +5,7 @@ import (
 	"github.com/stvp/go-toml-config"
 	"log"
 	"net/http"
+	"picture-story/api"
 )
 
 var (
@@ -15,7 +16,7 @@ func main() {
 
 	log.Println("Startup...")
 
-	http.Handle("/api", APIHandler{})
+	http.Handle("/api", api.Handler{})
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

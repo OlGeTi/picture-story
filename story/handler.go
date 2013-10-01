@@ -1,5 +1,5 @@
-// StoryHandler
-package main
+// handler
+package story
 
 import (
 	"net/http"
