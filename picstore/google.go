@@ -46,8 +46,6 @@ func GAlbums(userID string) (*[]Album, error) {
 
 	xml.Unmarshal(body, &query)
 
-	fmt.Println(query)
-
 	return convertToAlbumList(&query.AlbumList), nil
 }
 

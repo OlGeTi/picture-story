@@ -39,7 +39,7 @@ func (h Handler) ServeHTTP(rw http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	fmt.Fprint(rw, jsonResult)
+	fmt.Fprint(rw, string(jsonResult))
 }
 
 func fetchAlbums(userid string) (*[]picstore.Album, error) {
