@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"picture-story/api"
+	"picture-story/story"
 )
 
 var (
@@ -16,7 +17,8 @@ func main() {
 
 	log.Println("Startup...")
 
-	http.Handle("/api", api.Handler{})
+	http.Handle("/api/", api.Handler{})
+	http.Handle("/story", story.Handler{})
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

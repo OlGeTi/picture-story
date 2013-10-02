@@ -19,10 +19,11 @@ type gAlbumQuery struct {
 }
 
 type gAlbum struct {
-	UserID  UserID  `xml:"gphoto:user"`
-	ID      AlbumID `xml:"gphoto:id"`
-	Title   string  `xml:"title"`
-	Summary string  `xml:"summary"`
+	UserID UserID  `xml:"user"`
+	ID     AlbumID `xml:"id"`
+	// Thumbnail string  `xml:"group>url,attr"`
+	Title   string `xml:"title"`
+	Summary string `xml:"summary"`
 }
 
 func GAlbums(userID string) (*[]Album, error) {
@@ -46,10 +47,10 @@ func GAlbums(userID string) (*[]Album, error) {
 
 	xml.Unmarshal(body, &query)
 
-	return convertToAlbumList(&query.AlbumList), nil
+	return GAlbumListToAlbumList(&query.AlbumList), nil
 }
 
-func convertToAlbum(gAlbum gAlbum) Album {
+func GAlbumToAlbum(gAlbum gAlbum) Album {
 
 	return Album{
 		UserID:  gAlbum.UserID,
@@ -59,12 +60,12 @@ func convertToAlbum(gAlbum gAlbum) Album {
 	}
 }
 
-func convertToAlbumList(gAlbums *[]gAlbum) *[]Album {
+func GAlbumListToAlbumList(gAlbums *[]gAlbum) *[]Album {
 
 	albums := make([]Album, len(*gAlbums))
 
 	for i, gAlbum := range *gAlbums {
-		albums[i] = convertToAlbum(gAlbum)
+		albums[i] = GAlbumToAlbum(gAlbum)
 	}
 
 	return &albums

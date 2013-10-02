@@ -5,9 +5,9 @@ import (
 	"net/http"
 )
 
-type StoryHandler struct {
+type Handler struct {
 }
 
-func (h StoryHandler) ServeHTTP(rw http.ResponseWriter, request *http.Request) {
+func (h Handler) ServeHTTP(rw http.ResponseWriter, request *http.Request) {
 
 }
